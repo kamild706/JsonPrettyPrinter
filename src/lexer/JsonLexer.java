@@ -1,8 +1,8 @@
 package lexer;
 
-import lexer.common.InvalidCharacterException;
 import lexer.common.Lexer;
 import lexer.common.Token;
+import lexer.common.UnexpectedInputException;
 
 import java.math.BigDecimal;
 
@@ -61,7 +61,7 @@ public class JsonLexer extends Lexer {
             if (currentChar == '-' || currentChar >= '0' && currentChar <= '9') {
                 return matchNumber();
             }
-            throw new InvalidCharacterException(currentChar, index);
+            throw new UnexpectedInputException(currentChar, index);
         }
         return JsonToken.EOI;
     }
@@ -77,7 +77,7 @@ public class JsonLexer extends Lexer {
                 sb.append(currentChar);
             } else if (currentChar == '.') {
                 if (isDecimalSeparatorFound) {
-                    throw new InvalidCharacterException(currentChar, index);
+                    throw new UnexpectedInputException(currentChar, index);
                 } else {
                     sb.append(currentChar);
                     isDecimalSeparatorFound = true;
@@ -91,7 +91,7 @@ public class JsonLexer extends Lexer {
 
         String numString = sb.toString();
         if (numString.endsWith(".") || numString.endsWith("-")) {
-            throw new InvalidCharacterException(sb.charAt(sb.length() - 1), index - 1);
+            throw new UnexpectedInputException(sb.charAt(sb.length() - 1), index - 1);
         }
 
         BigDecimal number = new BigDecimal(numString);

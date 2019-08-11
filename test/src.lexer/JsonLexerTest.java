@@ -1,7 +1,6 @@
 package src.lexer;
 
 import lexer.*;
-import lexer.common.InvalidCharacterException;
 import lexer.common.Lexer;
 import lexer.common.Token;
 import lexer.common.UnexpectedInputException;
@@ -143,7 +142,7 @@ class JsonLexerTest {
     @Test
     void lexerTest4() {
         String input = "43.4.";
-        assertThrows(InvalidCharacterException.class, () -> {
+        assertThrows(UnexpectedInputException.class, () -> {
             tokenize(input);
         });
     }
