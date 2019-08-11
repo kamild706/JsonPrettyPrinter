@@ -96,7 +96,7 @@ class JsonLexerTest {
 
         expectedTokens.add(nameToken("isActive"));
         expectedTokens.add(COLON);
-        expectedTokens.add(booleanToken("false"));
+        expectedTokens.add(FALSE);
         expectedTokens.add(COMMA);
 
         expectedTokens.add(nameToken("balance"));

@@ -1,6 +1,7 @@
 package lexer.common;
 
 public abstract class Lexer {
+    public static final char END_OF_INPUT = (char) -1;
     private char[] input;
     protected int index;
     protected Character currentChar;
@@ -14,7 +15,7 @@ public abstract class Lexer {
     protected void consume() {
         index++;
         if (index >= input.length)
-            currentChar = null;
+            currentChar = END_OF_INPUT;
         else
             currentChar = input[index];
     }

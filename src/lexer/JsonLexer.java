@@ -6,6 +6,8 @@ import lexer.common.UnexpectedInputException;
 
 import java.math.BigDecimal;
 
+import static lexer.JsonToken.*;
+
 public class JsonLexer extends Lexer {
     public JsonLexer(char[] input) {
         super(input);
@@ -17,34 +19,34 @@ public class JsonLexer extends Lexer {
 
     @Override
     public Token nextToken() {
-        while (currentChar != null) {
+        while (currentChar != END_OF_INPUT) {
             if (isWhiteSpace(currentChar)) {
                 skipWhiteSpaces();
                 continue;
             }
             if (currentChar == '[') {
                 consume();
-                return JsonToken.LEFT_BRACKET;
+                return LEFT_BRACKET;
             }
             if (currentChar == ']') {
                 consume();
-                return JsonToken.RIGHT_BRACKET;
+                return RIGHT_BRACKET;
             }
             if (currentChar == '{') {
                 consume();
-                return JsonToken.LEFT_BRACE;
+                return LEFT_BRACE;
             }
             if (currentChar == '}') {
                 consume();
-                return JsonToken.RIGHT_BRACE;
+                return RIGHT_BRACE;
             }
             if (currentChar == ':') {
                 consume();
-                return JsonToken.COLON;
+                return COLON;
             }
             if (currentChar == ',') {
                 consume();
-                return JsonToken.COMMA;
+                return COMMA;
             }
             if (currentChar == '"') {
                 return matchName();
@@ -63,7 +65,7 @@ public class JsonLexer extends Lexer {
             }
             throw new UnexpectedInputException(currentChar, index);
         }
-        return JsonToken.EOI;
+        return EOI;
     }
 
     private Token matchNumber() {
@@ -72,7 +74,7 @@ public class JsonLexer extends Lexer {
         sb.append(currentChar);
         consume();
 
-        while (currentChar != null) {
+        while (currentChar != END_OF_INPUT) {
             if (currentChar >= '0' && currentChar <= '9') {
                 sb.append(currentChar);
             } else if (currentChar == '.') {
@@ -101,22 +103,22 @@ public class JsonLexer extends Lexer {
     private Token matchBoolean(boolean bool) {
         if (bool) {
             match("true");
-            return new Token(JsonTokenType.BOOLEAN, true);
+            return TRUE;
         } else {
             match("false");
-            return new Token(JsonTokenType.BOOLEAN, false);
+            return FALSE;
         }
     }
 
     private Token matchNull() {
         match("null");
-        return JsonToken.NULL;
+        return NULL;
     }
 
     private Token matchName() {
         consume();
         StringBuilder sb = new StringBuilder();
-        while (currentChar != null && currentChar != '"') {
+        while (currentChar != END_OF_INPUT && currentChar != '"') {
             sb.append(currentChar);
             consume();
         }
