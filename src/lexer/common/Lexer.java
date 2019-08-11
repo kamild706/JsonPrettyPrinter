@@ -2,7 +2,7 @@ package lexer.common;
 
 public abstract class Lexer {
     public static final char END_OF_INPUT = (char) -1;
-    private char[] input;
+    private final char[] input;
     protected int index;
     protected Character currentChar;
 

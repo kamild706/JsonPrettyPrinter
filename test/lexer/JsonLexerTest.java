@@ -141,16 +141,12 @@ class JsonLexerTest {
     @Test
     void lexerTest4() {
         String input = "43.4.";
-        assertThrows(UnexpectedInputException.class, () -> {
-            tokenize(input);
-        });
+        assertThrows(UnexpectedInputException.class, () -> tokenize(input));
     }
 
     @Test
     void lexerTest5() {
         String input = "falze";
-        assertThrows(UnexpectedInputException.class, () -> {
-            tokenize(input);
-        });
+        assertThrows(UnexpectedInputException.class, () -> tokenize(input));
     }
 }

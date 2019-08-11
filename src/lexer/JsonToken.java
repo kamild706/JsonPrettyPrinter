@@ -1,6 +1,5 @@
 package lexer;
 
-import lexer.common.Lexer;
 import lexer.common.Token;
 
 import java.math.BigDecimal;
