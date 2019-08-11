@@ -79,13 +79,7 @@ public class JsonParser extends Parser {
     }
 
     private void element() {
-        if (lookahead.getType().equals(LEFT_BRACE)) {
-            object();
-        } else if (lookahead.getType().equals(LEFT_BRACKET)) {
-            list();
-        } else {
-            throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString());
-        }
+        value();
     }
 
     @Override
