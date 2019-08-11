@@ -6,6 +6,7 @@ import parser.common.Parser;
 import parser.common.SyntaxException;
 
 import static lexer.JsonTokenType.*;
+import static parser.common.SyntaxException.alternatives;
 
 public class JsonParser extends Parser {
     public JsonParser(Lexer input) {
@@ -16,7 +17,7 @@ public class JsonParser extends Parser {
         switch ((JsonTokenType) lookahead.getType()) {
             case LEFT_BRACE -> object();
             case LEFT_BRACKET -> list();
-            default -> throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString());
+            default -> throw new SyntaxException(alternatives(LEFT_BRACE, LEFT_BRACKET), lookahead.getType());
         }
     }
 
@@ -48,8 +49,8 @@ public class JsonParser extends Parser {
             case NUMBER -> match(NUMBER);
             case BOOLEAN -> match(BOOLEAN);
             case NULL -> match(NULL);
-            default -> throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString(),
-                    NAME.toString(), NUMBER.toString(), BOOLEAN.toString(), NULL.toString());
+            default -> throw new SyntaxException(
+                    alternatives(LEFT_BRACE, LEFT_BRACKET, NAME, NUMBER, BOOLEAN, NULL), lookahead.getType());
         }
     }
 

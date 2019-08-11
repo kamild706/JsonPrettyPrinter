@@ -1,19 +1,23 @@
 package parser.common;
 
+import lexer.common.TokenType;
+
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
+
 public class SyntaxException extends RuntimeException {
     public SyntaxException(String expecting, String found) {
-        super(String.format("Expecting '%s' token but found '%s'", expecting, found));
+        super(String.format("Expecting '%s', found '%s'", expecting, found));
     }
 
-    public static SyntaxException of(String found, String... expected) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(expected[0]);
+    public SyntaxException(String expecting, TokenType found) {
+        this(expecting, found.toString());
+    }
 
-        for (int i = 1; i < expected.length; i++) {
-            sb.append(" or ");
-            sb.append(expected[i]);
-        }
-
-        return new SyntaxException(sb.toString(), found);
+    public static String alternatives(TokenType... alternatives) {
+        return Stream.of(alternatives)
+                .map(Object::toString)
+                .collect(joining(" or "));
     }
 }
