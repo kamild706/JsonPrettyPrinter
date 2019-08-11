@@ -1,5 +1,6 @@
 package parser;
 
+import lexer.JsonTokenType;
 import lexer.common.Lexer;
 import parser.common.Parser;
 import parser.common.SyntaxException;
@@ -12,12 +13,10 @@ public class JsonParser extends Parser {
     }
 
     private void json() {
-        if (lookahead.getType().equals(LEFT_BRACE)) {
-            object();
-        } else if (lookahead.getType().equals(LEFT_BRACKET)) {
-            list();
-        } else {
-            throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString());
+        switch ((JsonTokenType) lookahead.getType()) {
+            case LEFT_BRACE -> object();
+            case LEFT_BRACKET -> list();
+            default -> throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString());
         }
     }
 
@@ -43,18 +42,13 @@ public class JsonParser extends Parser {
     }
 
     private void value() {
-        if (lookahead.getType().equals(LEFT_BRACE) || lookahead.getType().equals(LEFT_BRACKET)) {
-            json();
-        } else if (lookahead.getType().equals(NAME)) {
-            match(NAME);
-        } else if (lookahead.getType().equals(NUMBER)) {
-            match(NUMBER);
-        } else if (lookahead.getType().equals(BOOLEAN)) {
-            match(BOOLEAN);
-        } else if (lookahead.getType().equals(NULL)) {
-            match(NULL);
-        } else {
-            throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString(),
+        switch ((JsonTokenType) lookahead.getType()) {
+            case LEFT_BRACE, LEFT_BRACKET -> json();
+            case NAME -> match(NAME);
+            case NUMBER -> match(NUMBER);
+            case BOOLEAN -> match(BOOLEAN);
+            case NULL -> match(NULL);
+            default -> throw SyntaxException.of(lookahead.getType().toString(), LEFT_BRACE.toString(), LEFT_BRACKET.toString(),
                     NAME.toString(), NUMBER.toString(), BOOLEAN.toString(), NULL.toString());
         }
     }

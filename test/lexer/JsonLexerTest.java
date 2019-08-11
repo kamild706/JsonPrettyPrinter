@@ -1,6 +1,5 @@
-package src.lexer;
+package lexer;
 
-import lexer.*;
 import lexer.common.Lexer;
 import lexer.common.Token;
 import lexer.common.UnexpectedInputException;
