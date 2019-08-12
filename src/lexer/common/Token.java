@@ -10,4 +10,8 @@ import lombok.ToString;
 public class Token {
     private final TokenType type;
     private final Object value;
+
+    public boolean isOfType(TokenType type) {
+        return this.type.equals(type);
+    }
 }

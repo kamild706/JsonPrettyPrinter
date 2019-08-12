@@ -23,14 +23,14 @@ public class JsonParser extends Parser {
 
     private void object() {
         match(LEFT_BRACE);
-        while (!lookahead.getType().equals(RIGHT_BRACE) && !lookahead.getType().equals(EOI))
+        while (!lookahead.isOfType(RIGHT_BRACE) && !lookahead.isOfType(EOI))
             properties();
         match(RIGHT_BRACE);
     }
 
     private void properties() {
         property();
-        while (lookahead.getType().equals(COMMA)) {
+        while (lookahead.isOfType(COMMA)) {
             match(COMMA);
             property();
         }
@@ -60,14 +60,14 @@ public class JsonParser extends Parser {
 
     private void list() {
         match(LEFT_BRACKET);
-        while (!lookahead.getType().equals(RIGHT_BRACKET) && !lookahead.getType().equals(EOI))
+        while (!lookahead.isOfType(RIGHT_BRACKET) && !lookahead.isOfType(EOI))
             elements();
         match(RIGHT_BRACKET);
     }
 
     private void elements() {
         element();
-        while (lookahead.getType().equals(COMMA)) {
+        while (lookahead.isOfType(COMMA)) {
             match(COMMA);
             element();
         }

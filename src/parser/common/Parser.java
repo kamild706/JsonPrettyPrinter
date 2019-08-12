@@ -18,7 +18,7 @@ public abstract class Parser {
     }
 
     protected void match(TokenType tokenType) {
-        if (lookahead.getType().equals(tokenType))
+        if (lookahead.isOfType(tokenType))
             consume();
         else
             throw new SyntaxException(tokenType.toString(), lookahead.getValue().toString());
